@@ -3,11 +3,10 @@ import { useState } from "react";
 function Todo({ todoData, isFinished, changeFinished, onDelete, onEdit }) {
   const [finished, setFinished] = useState(isFinished);
   const [isEditing, setIsEditing] = useState(false);
-  const [editText, setEditText] = useState(todoData); // Initialize with `todoData`
+  const [editText, setEditText] = useState(todoData);
 
   return (
     <div>
-      {/* Checkbox */}
       <input
         type="checkbox"
         checked={finished}
@@ -17,30 +16,27 @@ function Todo({ todoData, isFinished, changeFinished, onDelete, onEdit }) {
         }}
       />
 
-      {/* Editing Mode */}
       {isEditing ? (
         <input
           type="text"
           value={editText}
-          onChange={(e) => setEditText(e.target.value)} // Fix spelling of `onChange`
+          onChange={(e) => setEditText(e.target.value)}
         />
       ) : (
         <span>{todoData}</span>
       )}
 
-      {/* Edit/Save Button */}
       <button
         onClick={() => {
-          if (isEditing) {
-            onEdit(editText); // Save the edited text
+          if (isEditing && editText.trim() !== "") {
+            onEdit(editText); // Save edited text
           }
-          setIsEditing(!isEditing); // Toggle edit mode
+          setIsEditing(!isEditing);
         }}
       >
         {isEditing ? "Save" : "Edit"}
       </button>
 
-      {/* Delete Button */}
       <button onClick={onDelete}>Delete</button>
     </div>
   );
