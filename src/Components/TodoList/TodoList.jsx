@@ -1,26 +1,27 @@
+import { useSelector} from 'react-redux';
 import Todo from "../Todo/Todo";
-import TodoContext from "../../Context/TodoContext";
-import { useContext } from "react";
-import TodoDispatchContext from "../../Context/TodoDispatchContext";
 
-function TodoList() {
-  const { list } = useContext(TodoContext);
-  const { dispatch } = useContext(TodoDispatchContext);
+function TodoList({editTodo , deleteTodo , todoFinished})  {
 
-  if (!list || list.length === 0) {
+  const list = useSelector((state) => state.todo);
+  
+
+  if (!list || list.length == 0) {
     return <div>No todos available</div>;
   }
 
   function onFinished(todoId, isFinished) {
-    dispatch({ type: "finish_todo", payload: { id: todoId, isFinished } });
+    todoFinished(todoId, isFinished );
   }
 
-  function onDelete(todoId) {
-    dispatch({ type: "delete_todo", payload: { id: todoId } });
+  function onDelete(todo) {
+    console.log("deleteTodo", todo);
+    
+    deleteTodo(todo );
   }
 
-  function onEdit(todoId, todoText) {
-    dispatch({ type: "edit_todo", payload: { id: todoId, todoText } });
+  function onEdit(todo, todoText) {
+    editTodo(todo, todoText );
   }
 
   return (
@@ -31,7 +32,7 @@ function TodoList() {
           todoData={todo.todoData}
           isFinished={todo.finished}
           changeFinished={(isFinished) => onFinished(todo.id, isFinished)}
-          onDelete={() => onDelete(todo.id)}
+          onDelete={() => onDelete(todo)}
           onEdit={(todoText) => onEdit(todo.id, todoText)}
         />
       ))}

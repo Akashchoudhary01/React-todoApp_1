@@ -1,23 +1,22 @@
-import { useContext, useState } from "react";
-import TodoDispatchContext from "../../Context/TodoDispatchContext";
+import { useState } from "react";
+import "./AddTodo.css";
 
-function AddTodo() {
+function AddTodo({ addTodo }) {
   const [inputText, setInputText] = useState("");
-  const { dispatch } = useContext(TodoDispatchContext);
 
   return (
-    <div>
+    <div className="add-todo-container">
       <input
         type="text"
         value={inputText}
-        placeholder="Add Your Text"
+        placeholder="Add Your Todo"
         onChange={(e) => setInputText(e.target.value)}
       />
       <button
         onClick={() => {
           if (inputText.trim() !== "") {
-            dispatch({ type: "add_todo", payload: { todoText: inputText } });
-            setInputText(""); // Reset input field to an empty string
+            addTodo(inputText);
+            setInputText("");
           }
         }}
       >

@@ -1,6 +1,8 @@
-function todoReducer(state, action) {
+import { ADD_TODO, EDIT_TODO, DELETE_TODO, FINISH_TODO } from '../constants/action.js';
+
+function todoReducer(state= [], action) {
     switch (action.type) {
-      case "add_todo": {
+      case ADD_TODO: {
         const todoText = action.payload.todoText;
         return [
           ...state,
@@ -8,19 +10,19 @@ function todoReducer(state, action) {
         ];
       }
   
-      case "edit_todo": {
+      case EDIT_TODO: {
         const { id, todoText } = action.payload;
         return state.map((t) =>
           t.id === id ? { ...t, todoData: todoText } : t
         );
       }
   
-      case "delete_todo": {
+      case DELETE_TODO: {
         const { id } = action.payload;
         return state.filter((t) => t.id !== id);
       }
   
-      case "finish_todo": {
+      case FINISH_TODO: {
         const { id, isFinished } = action.payload;
         return state.map((t) =>
           t.id === id ? { ...t, finished: isFinished } : t
